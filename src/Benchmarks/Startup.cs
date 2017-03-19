@@ -17,6 +17,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Npgsql;
+#if !NET451
+using StackExchange.Profiling;
+using StackExchange.Profiling.Storage;
+#endif
 
 namespace Benchmarks
 {
@@ -150,6 +154,13 @@ namespace Benchmarks
             {
                 loggerFactory.AddConsole(appSettings.Value.LogLevel.Value);
             }
+
+#if !NET451
+            if (Scenarios.MiddlewareMiniProfiler)
+            {
+                app.UseMiniProfiler(new MiniProfilerOptions());
+            }
+#endif
 
             if (Scenarios.Plaintext)
             {

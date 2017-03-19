@@ -128,6 +128,11 @@ namespace Benchmarks.Configuration
         [ScenarioPath("/mvc/fortunes/dapper")]
         public bool MvcDbFortunesDapper { get; set; }
 
+#if !NET451
+        [ScenarioPath("/middleware/miniprofiler")]
+        public bool MiddlewareMiniProfiler { get; set; }
+#endif
+
         public bool Any(string partialName) =>
             typeof(Scenarios).GetTypeInfo().DeclaredProperties
                 .Where(p => p.Name.IndexOf(partialName, StringComparison.Ordinal) >= 0 && (bool)p.GetValue(this))
